@@ -12,7 +12,7 @@ import ImagePicker from "../components/image-picker";
   <body>
     <main class="grid place-items-center min-h-screen">
       <h1>Image Converter</h1>
-      <ImagePicker client:load origin={Astro.url.origin} />
+      <ImagePicker client:only="react" origin={Astro.url.origin} />
     </main>
   </body>
 </html>

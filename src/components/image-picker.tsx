@@ -35,21 +35,34 @@ export default function ImagePicker({ origin }: { origin: string }) {
 
     const notDraggableFiles = e.target.assets.files.length !== 0;
 
-    if (notDraggableFiles) {
+    if (notDraggableFiles && !files) {
       const assets = Array.from(e.target.assets.files);
       assets.forEach((asset: any) => {
         form.append("assets", asset);
       });
     }
-    // fetch(`${origin}/api/convert?toFormat=${format}`, {
-    //   method: "POST",
-    //   body: form,
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
+    fetch(`${origin}/api/convert?toFormat=${format}`, {
+      method: "POST",
+      body: form,
+    }).finally(() => {
+      setLoading(false);
+    });
+  };
+
+  const handleFormat = (e) => {
+    setFormat(e.target.value);
   };
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="format">
+        <select name="format" id="format" onChange={handleFormat}>
+          <option value="">Selecciona formato</option>
+          <option value="avif">Avif</option>
+          <option value="webp">Webp</option>
+          <option value="png">PNG</option>
+        </select>
+      </label>
+
       <label
         htmlFor="assets"
         onDrop={handleDrop}
